@@ -1,0 +1,10 @@
+package sasha.analizator.repositories;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import sasha.analizator.entites.Product;
+
+@Repository
+public interface ProductRepository extends JpaRepository<Product, Integer> {
+
+}

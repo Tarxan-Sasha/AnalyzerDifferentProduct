@@ -1,0 +1,24 @@
+package sasha.analizator.entites;
+
+import jakarta.persistence.*;
+import lombok.Data;
+
+@Entity(name="product")
+@Data
+public class Product {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_product")
+    private int id;
+
+    @Column(name="name_product")
+    private String name;
+
+    @Column(name = "price_product")
+    private int price;
+
+    @Column(name="link_product")
+    private String link;
+
+}
