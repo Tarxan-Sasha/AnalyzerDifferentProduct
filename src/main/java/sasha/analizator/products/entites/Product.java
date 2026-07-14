@@ -1,4 +1,4 @@
-package sasha.analizator.entites;
+package sasha.analizator.products.entites;
 
 import jakarta.persistence.*;
 import lombok.Data;
