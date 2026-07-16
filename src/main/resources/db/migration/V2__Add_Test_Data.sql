@@ -1,1 +1,0 @@
-insert into product(name_product, price_product, link_product) values ('Dragon Red',250,'https://localhost:404//....')

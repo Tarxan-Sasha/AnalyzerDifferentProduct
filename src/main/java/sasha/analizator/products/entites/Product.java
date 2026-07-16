@@ -16,7 +16,10 @@ public class Product {
     private String name;
 
     @Column(name = "price_product")
-    private int price;
+    private String price;
+
+    @Column(name= "exist_product")
+    private String exist;
 
     @Column(name="link_product")
     private String link;
