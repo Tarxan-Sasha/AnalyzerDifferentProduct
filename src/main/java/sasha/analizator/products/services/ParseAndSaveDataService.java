@@ -1,5 +1,6 @@
 package sasha.analizator.products.services;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -10,6 +11,9 @@ import org.springframework.stereotype.Service;
 import sasha.analizator.products.entites.Product;
 import sasha.analizator.products.repositories.ProductRepository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -17,13 +21,10 @@ public class ParseAndSaveDataService {
 
         private final ProductRepository productRepository;
 
+        @Transactional
         public void parseAndSaveData() {
 
             try {
-                if(productRepository.count() >= 1){
-                    productRepository.deleteAll();
-                    productRepository.deleteAll();
-                }
 
                 String link = "https://domigr.com.ua/ua/c-modelirovanie/c-paint/?filter_categories[0]=426&page=2";
 
@@ -45,7 +46,21 @@ public class ParseAndSaveDataService {
                         product.setExist(exist);
                         product.setLink(link);
 
-                        productRepository.save(product);
+                        if(!productRepository.existsByName(name)) {
+                            productRepository.save(product);
+                        }else{
+                            List<Product> products = productRepository.findAllByName(name);
+                            for(int i=0; i<products.size(); i++){
+                                if(products.get(i).getLink().equals(product.getLink())){
+                                    if(!(products.get(i).getPrice().equals(product.getPrice()))){
+                                        products.get(i).setPrice(product.getPrice());
+                                    }
+                                }else{
+                                    productRepository.save(product);
+                                }
+                            }
+
+                        }
 
                     }
                 }
@@ -55,4 +70,40 @@ public class ParseAndSaveDataService {
 
             }
         }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
