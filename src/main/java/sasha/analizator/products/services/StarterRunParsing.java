@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class StarterRunParsing implements CommandLineRunner {
 
-    private final ParseAndSaveDataService parseAndSaveDataService;
+    private final ParseDataService parseAndSaveDataService;
 
     @Override
     public void run(String... args) throws Exception {
-        parseAndSaveDataService.parseAndSaveData();
+        parseAndSaveDataService.parseData();
     }
 
 }

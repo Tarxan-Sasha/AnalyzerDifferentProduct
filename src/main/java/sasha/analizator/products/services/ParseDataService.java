@@ -1,6 +1,5 @@
 package sasha.analizator.products.services;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -9,33 +8,25 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 import sasha.analizator.products.entites.Product;
-import sasha.analizator.products.repositories.ProductRepository;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class ParseAndSaveDataService {
+public class ParseDataService {
 
     /*
-        Сделай тест на этот метод. (возможно придеться отделить поиск и обнволение от общего метода)
+        Сделай тест на этот метод.
         Парсировку затестить
         И в частности находит ли обьект?, а если нет то доабвляет ли?, а если находит обновляет ли?
 
+        Консультация по этому проекту тут: https://gemini.google.com/app/42cc41bd19df9114?hl=ru
      */
 
+        private final SaveParseData saveParseData;
 
-
-        private final ProductRepository productRepository;
-
-        @Transactional
-        public void parseAndSaveData() {
+        public void parseData() {
 
             try {
-
                 String link = "https://domigr.com.ua/ua/c-modelirovanie/c-paint/?filter_categories[0]=426&page=2";
 
                 Document document = Jsoup.connect(link)
@@ -56,23 +47,13 @@ public class ParseAndSaveDataService {
                         newProduct.setExist(exist);
                         newProduct.setLink(link);
 
-                        Optional<Product> oldProduct = productRepository.findByNameAndLink(name,link);
-                        if(oldProduct.isPresent()) {
-                            if (!(oldProduct.get().getPrice().equals(newProduct.getPrice()))) {
-                                oldProduct.get().setPrice(newProduct.getPrice());
-                            }
-                        }else{
-                            productRepository.save(newProduct);
-                        }
+                        saveParseData.saveDataFromParse(newProduct);
                     }
                 }
-
             } catch (Exception e) {
                 e.printStackTrace();
-
             }
         }
-
 }
 
 
