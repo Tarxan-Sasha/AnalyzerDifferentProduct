@@ -16,7 +16,7 @@ public class SaveParseData {
     private final ProductRepository productRepository;
 
     @Transactional
-    public void saveDataFromParse( Product newProduct){
+    public void saveDataFromParse(Product newProduct){
         Optional<Product> oldProduct = productRepository.findByNameAndLink(newProduct.getName(), newProduct.getLink());
 
         if(oldProduct.isPresent()) {
