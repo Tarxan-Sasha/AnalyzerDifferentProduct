@@ -26,9 +26,7 @@ public class ParseDataService_Tests {
 
     @InjectMocks
     private ParseDataService parseDataService;
-    //Изменить имя на нормальное
-    // В помке мб изменить <version>4.1.0</version> на <version>3.2.5</version>
-    //И я закоментриолвал все что связано с FlyWay не помогло
+
     @Test
     public void parseDocument_rightWork_ElementsIsNotEmpty() throws Exception{
 
